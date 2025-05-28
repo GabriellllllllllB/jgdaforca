@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Jogo_da_forca
+namespace JogoDaForca
 {
     class Program
     {
@@ -9,11 +9,11 @@ namespace Jogo_da_forca
         {
             int tentativas = 6;
             string[] palavras = new string[6] { "MEDICO", "PROFESSOR", "BANCARIO", "MINERADOR", "BOMBEIRO", "POLICIA" };
-            Random rand = new Random();
-            string palavraa = palavras[rand.Next(palavras.Length)].ToUpper();
+            Random random = new Random();
+            string palavraescolhida = palavras[random.Next(palavras.Length)].ToUpper();
 
-            List<char> letrac = new List<char>();
-            List<char> letrae = new List<char>();
+            List<char> letracerta = new List<char>();
+            List<char> letraerrada = new List<char>();
 
             while (tentativas > 0)
             {
@@ -22,70 +22,73 @@ namespace Jogo_da_forca
                 Console.WriteLine();
                 Console.WriteLine("DICA: PROFISSÃO");
 
-                foreach (char letra in palavraa)
+                foreach (char letra in palavraescolhida)
                 {
-                    if (letrac.Contains(letra))
+                    if (letracerta.Contains(letra))
                         Console.Write(letra + " ");
                     else
                         Console.Write("_ ");
                 }
 
                 Console.WriteLine();
-                Console.Write("LETRA ERRADA: ");
-                foreach (char c in letrae)
+                Console.Write("LETRA(S) ERRADA(S): ");
+                foreach (char c in letraerrada)
                     Console.Write(c + " ");
                 Console.WriteLine();
 
-                Console.WriteLine($"VIDAS RESTANTES: {tentativas}");
+                Console.WriteLine($"VIDA(S) RESTANTE(S): {tentativas}");
                 Console.Write("DIGITE UMA LETRA: ");
 
                 string entrada = Console.ReadLine().ToUpper();
-                char tentativaa = entrada[0];
+                char tentativarestante = entrada[0];
 
                 Console.WriteLine();
 
-                if (letrac.Contains(tentativaa) || letrae.Contains(tentativaa))
+                if (letracerta.Contains(tentativarestante) || letraerrada.Contains(tentativarestante))
                 {
-                    Console.WriteLine("ESSA LETRA JA FOI, ANIMAL");
+                    Console.WriteLine("ESSA LETRA JA FUI UTILIZADA, TENTE OUTRA!");
                     Console.ReadKey();
                     continue;
                 }
 
-                if (palavraa.Contains(tentativaa))
+                if (palavraescolhida.Contains(tentativarestante))
                 {
-                    letrac.Add(tentativaa);
+                    letracerta.Add(tentativarestante);
                 }
                 else
                 {
-                    letrae.Add(tentativaa);
+                    letraerrada.Add(tentativarestante);
                     tentativas--;
                 }
 
-                bool venceu = true;
-                foreach (char letra in palavraa)
+                bool Venceu = true;
+                foreach (char Letra in palavraescolhida)
                 {
-                    if (!letrac.Contains(letra))
+                    if (!letracerta.Contains(Letra))
                     {
-                        venceu = false;
+                        Venceu = false;
                         break;
                     }
                 }
 
-                if (venceu)
+                if (Venceu)
                 {
                     Console.Clear();
-                    Console.WriteLine("VOCÊ ACERTOU A PALAVRA, NÃO FEZ MAIS QUE SUA OBRIGAÇÃO");
-                    Console.WriteLine($"A PALAVRA ERA: {palavraa}");
+                    Console.WriteLine("VOCÊ ACERTOU A PALAVRA, PARABÉNS!!!");
+                    Console.WriteLine($"A PALAVRA ERA: {palavraescolhida}");
                     break;
                 }
 
                 if (tentativas == 0)
                 {
                     Console.Clear();
-                    Console.WriteLine("PERDEU ZÉ MANÉ");
-                    Console.WriteLine($"A PALAVRA ERA: {palavraa}");
-                }
+                    Console.WriteLine("VOCÊ PERDEU!!!");
+                    Console.WriteLine($"A PALAVRA ERA: {palavraescolhida}");
+                }   
+
             }
+            Console.WriteLine("APERTE QUALQUER TECLA PARA ENCERRAR O PROGRAMA");
+            Console.ReadKey();
         }
     }
 }
